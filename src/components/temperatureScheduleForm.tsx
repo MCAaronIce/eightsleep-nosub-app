@@ -83,22 +83,39 @@ export const TemperatureScheduleForm: React.FC = () => {
 
       <form onSubmit={handleSubmit} className="mb-4 space-y-3">
         <div className="flex items-end gap-3">
+            <div className="flex-1">
+              <label htmlFor="scheduleTime" className="block text-sm font-medium text-gray-700">
+                Time
+              </label>
+              <input
+                id="scheduleTime"
+                type="time"
+                value={time}
+                onChange={(e) => setTime(e.target.value)}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+              />
+            </div>
+            <div className="flex-1">
+              <label htmlFor="scheduleTemperature" className="block text-sm font-medium text-gray-700">
+                Temperature (-10 to 10)
+              </label>
+              <input
+                id="scheduleTemperature"
+                type="number"
+                min={-10}
+                max={10}
+                step={1}
+                value={temperature}
+                onChange={(e) => setTemperature(Number(e.target.value))}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+              />
+            </div>
           <div className="flex-1">
-            <label className="block text-sm font-medium text-gray-700">
-              Time
-            </label>
-            <input
-              type="time"
-              value={time}
-              onChange={(e) => setTime(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-            />
-          </div>
-          <div className="flex-1">
-            <label className="block text-sm font-medium text-gray-700">
+            <label htmlFor="temperature" className="block text-sm font-medium text-gray-700">
               Temperature (-10 to 10)
             </label>
             <input
+              id="temperature"
               type="number"
               min={-10}
               max={10}
