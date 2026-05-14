@@ -7,6 +7,8 @@ import { type Token } from "~/server/eight/types";
 import { setHeatingLevel, turnOnSide, turnOffSide } from "~/server/eight/eight";
 import { getCurrentHeatingStatus } from "~/server/eight/user";
 
+import { getTargetTemperatureFromSchedules } from "./scheduleLogic";
+
 export const runtime = "nodejs";
 
 function createDateWithTime(baseDate: Date, timeString: string): Date {
@@ -184,29 +186,15 @@ export async function adjustTemperature(testMode?: TestMode): Promise<void> {
 
         if (userSchedules.length > 0) {
           // Use custom schedule entries
-          const sorted = userSchedules.map((s) => ({
-            time: s.time.slice(0, 5),
-            temperature: s.temperature,
-          }));
-
-          let activeSchedule = null;
-          for (const schedule of sorted) {
-            const [hours, minutes] = schedule.time.split(':').map(Number);
-            const scheduleDate = new Date(userNow);
-            scheduleDate.setHours(hours!, minutes!, 0, 0);
-            if (scheduleDate <= userNow) {
-              activeSchedule = schedule;
-            }
-          }
-
-          if (activeSchedule) {
-            targetLevel = activeSchedule.temperature;
-            sleepStage = `schedule-${activeSchedule.time}`;
-          } else {
-            // Before first schedule entry, don't change
-            targetLevel = null;
-            sleepStage = `before-first-schedule`;
-          }
+          const result = getTargetTemperatureFromSchedules(
+            userSchedules.map((s) => ({
+              time: s.time.slice(0, 5),
+              temperature: s.temperature,
+            })),
+            userNow,
+          );
+          targetLevel = result.targetLevel;
+          sleepStage = result.stage;
         } else {
           // Fallback to 4-stage logic
           if (isNearPreHeating || (isNearBedTime && userNow < adjustedCycle.bedTime)) {
