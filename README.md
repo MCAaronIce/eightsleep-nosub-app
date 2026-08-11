@@ -82,6 +82,7 @@ This project is an unofficial, independent effort and is not affiliated with, en
 
 **No Liability**: The developers of this project are not responsible for any damages or losses, including but not limited to, damages related to data loss, service interruption, or account issues.
 
+**Custom Update**: Updated the midstage time to be after 4 hours instead of 1
 **Use Responsibly**: This tool is intended for personal use only. Do not use it to access or modify data of Eight Sleep accounts you do not own or have explicit permission to manage.
 
 By using this software, you acknowledge that you have read this disclaimer, understand its contents, and agree to use the software at your own risk. If you do not agree with these terms, do not use this software.
